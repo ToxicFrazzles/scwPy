@@ -1,1 +1,1 @@
-scaleway-sdk
+requests

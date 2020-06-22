@@ -1,9 +1,5 @@
-
-.idea/inspectionProfiles/profiles_settings.xml
-.idea/modules.xml
-.idea/misc.xml
-.idea/scwPy.iml
-.idea/workspace.xml
+venv/
+.idea/
 real_org.id
 real.key
 temp.txt

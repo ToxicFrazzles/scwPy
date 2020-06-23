@@ -5,6 +5,7 @@ class PublicIP:
     def __init__(self, manager, id):
         self.id = id
         self.manager = manager
+        self.owner = None
         self.address = None
         self.dynamic = None
 
@@ -26,6 +27,7 @@ class PublicIPDescriptor(BaseDescriptor):
             ip = value
         else:
             ip = PublicIP(obj.manager, value['id'])
+            ip.owner = obj
             for key, val in value.items():
                 if key == "id": continue
                 ip.__setattr__(key, val)

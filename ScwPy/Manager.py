@@ -9,7 +9,7 @@ from typing import List
 class Manager:
     def __init__(self, auth_token):
         self.auth_token = auth_token
-        self._servers = None
+        self._servers = []
 
     def api_request(self, url) -> requests.Response:
         headers = {
@@ -34,6 +34,10 @@ class Manager:
             if count < 1:
                 break
             for raw_server in json['servers']:
+                matching = [i for i, x in enumerate(self._servers) if x.id == raw_server['id']]
+                if len(matching) > 0:
+                    servers.append(matching[0])
+                    continue
                 server = Server(self, raw_server['id'])
                 for key, value in raw_server.items():
                     if key == "id":
@@ -42,6 +46,7 @@ class Manager:
                         server.__getattribute__(key).__set__(server, value)
                     else:
                         server.__setattr__(key, value)
+                self._servers.append(server)
                 servers.append(server)
             if count < 100:
                 break

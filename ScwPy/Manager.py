@@ -36,7 +36,15 @@ class Manager:
             for raw_server in json['servers']:
                 matching = [i for i, x in enumerate(self._servers) if x.id == raw_server['id']]
                 if len(matching) > 0:
-                    servers.append(matching[0])
+                    server = matching[0]
+                    for key, value in raw_server.items():
+                        if key == "id":
+                            continue
+                        if isinstance(server.__getattribute__(key), BaseDescriptor):
+                            server.__getattribute__(key).__set__(server, value)
+                        else:
+                            server.__setattr__(key, value)
+                    servers.append(server)
                     continue
                 server = Server(self, raw_server['id'])
                 for key, value in raw_server.items():

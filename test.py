@@ -8,4 +8,4 @@ if __name__ == "__main__":
     api = ScwPy.Manager(auth_token=key)
     servers = api.get_servers()
     for server in servers:
-        print(f"{server.name}: {server.private_ip}")
+        print(f"{server.name}: {server.public_ip.address}")

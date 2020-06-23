@@ -1,9 +1,12 @@
+from .PublicIP import PublicIPDescriptor
+
+
 class Server:
     def __init__(self, manager, id):
         self.id = id
         self.manager = manager
         self.name = None
-        self.organisation = None
+        self.organization = None
         self.allowed_actions = None
         self.tags = None
         self.commercial_type = None
@@ -14,7 +17,7 @@ class Server:
         self.image = None
         self.protected = None
         self.private_ip = None
-        self.public_ip = None
+        self.public_ip = PublicIPDescriptor(self)
         self.modification_date = None
         self.state = None
         self.location = None
@@ -28,3 +31,5 @@ class Server:
         self.arch = None
         self.placement_group = None
         self.zone = None
+        self.extra_networks = None
+        self.private_nics = None

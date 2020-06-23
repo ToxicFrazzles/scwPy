@@ -1,5 +1,6 @@
 from .Common import *
 from .Server import Server
+from .BaseDescriptor import BaseDescriptor
 import requests
 import time
 from typing import List
@@ -33,13 +34,14 @@ class Manager:
             if count < 1:
                 break
             for raw_server in json['servers']:
-                print("Server:", raw_server['id'])
                 server = Server(self, raw_server['id'])
                 for key, value in raw_server.items():
                     if key == "id":
                         continue
-                    print(f" {key}: {value}")
-                    server.__setattr__(key, value)
+                    if isinstance(server.__getattribute__(key), BaseDescriptor):
+                        server.__getattribute__(key).__set__(server, value)
+                    else:
+                        server.__setattr__(key, value)
                 servers.append(server)
             if count < 100:
                 break
@@ -55,5 +57,4 @@ class Manager:
                 servers += self.get_zone_servers(zone)
         else:
             servers = self.get_zone_servers(zone)
-        self._servers = servers
         return servers

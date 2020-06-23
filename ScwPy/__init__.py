@@ -1,5 +1,5 @@
 from .Manager import Manager
-from .IP import IP
+from .PublicIP import PublicIP
 from .Server import Server
 from .Volume import Volume
 from .Manager import Manager

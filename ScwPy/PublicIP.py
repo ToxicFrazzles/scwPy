@@ -24,9 +24,14 @@ class PublicIPDescriptor(BaseDescriptor):
     def __set__(self, obj, value):
         print("Set is called")
         if isinstance(value, PublicIP):
+            # TODO: Add some logic for reassigning an IP address via the API
             ip = value
         else:
-            ip = PublicIP(obj.manager, value['id'])
+            matches = [i for i, x in enumerate(self.parent.manager._public_ips) if x.id == value['id']]
+            if len(matches) > 0:
+                ip = self.parent.manager._public_ips[matches[0]]
+            else:
+                ip = PublicIP(obj.manager, value['id'])
             ip.owner = obj
             for key, val in value.items():
                 if key == "id": continue

@@ -10,6 +10,7 @@ class Manager:
     def __init__(self, auth_token):
         self.auth_token = auth_token
         self._servers = []
+        self._public_ips = []
 
     def api_request(self, url) -> requests.Response:
         headers = {
@@ -36,7 +37,7 @@ class Manager:
             for raw_server in json['servers']:
                 matching = [i for i, x in enumerate(self._servers) if x.id == raw_server['id']]
                 if len(matching) > 0:
-                    server = matching[0]
+                    server = self._servers[matching[0]]
                     for key, value in raw_server.items():
                         if key == "id":
                             continue
